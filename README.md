@@ -1,4 +1,4 @@
-# autoLeftClicker
+# Auto Left Clicker
 This mod adds the ability to automatically attack entities if you can attack it. <br>
 It is useful when afking with any spawner. <br>
 It works even in the background. 
