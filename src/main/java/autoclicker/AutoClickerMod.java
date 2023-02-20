@@ -41,27 +41,21 @@ public class AutoClickerMod {
 	}
 
 	private static final Minecraft mc = Minecraft.getMinecraft();
-
 	public static final KeyBinding toggleLClick = new KeyBinding("toggle Auto LeftClick", 68, "autoLeftClicker");
-
+	// auto Attacker
 	private static boolean isValid = false;
-
 	public static boolean isAutoAttackerValid = true;
-
 	private static int clickTickInterval = 10;
-
 	private static int leftCooldown = 0;
-
-	public static boolean isAutoBreakerValid = true;
-
+	// auto Breaker
+	public static boolean isAutoBreakerValid = false;
+	public static String idString = "";
+	// auto Fishing
 	public static boolean isAutoFishingValid = true;
-
+	public static String fishingRodString = "Fishing,釣";
 	private static EntityPlayer player;
-
 	private static int fishingTime = 0;
-
 	public static int fishingInterval = 16;
-
 	public static int maxFishingTime = 3000;
 
 	@EventHandler
@@ -123,8 +117,6 @@ public class AutoClickerMod {
 		return false;
 	}
 
-	public static String idString = "";
-
 	public void autoBreaker() {
 		int blockX = mc.objectMouseOver.blockX;
 		int blockY = mc.objectMouseOver.blockY;
@@ -167,16 +159,20 @@ public class AutoClickerMod {
 	}
 
 	public static ItemStack getFishingRod(EntityPlayer player) {
-    if (player == null)
-      return null;
-    ItemStack itemOnHand = player.inventory.getCurrentItem();
-    if (itemOnHand == null)
-      return null;
-    String name = itemOnHand.getItem().getUnlocalizedName();
-    if (name.contains("fishing") || name.contains("rod") || name.contains("釣"))
-      return itemOnHand;
-    return null;
-  }
+		if (player == null)
+			return null;
+		ItemStack itemOnHand = player.inventory.getCurrentItem();
+		if (itemOnHand == null)
+			return null;
+		String name = itemOnHand.getItem().getItemStackDisplayName(itemOnHand);
+		String[] fishingRodStrings = fishingRodString.split(",");
+		for(int i = 0; i < fishingRodStrings.length; i++) {
+			String string = fishingRodStrings[i];
+			//System.out.println(string + ":" + name + ":" + name.contains(string) + ":" + string.length());
+			if(name.contains(string) && 0 < string.length()) return itemOnHand;
+		}
+		return null;
+	}
 
 	public static void useFishingRod(ItemStack fishingRod) {
 		if (fishingRod == null)
